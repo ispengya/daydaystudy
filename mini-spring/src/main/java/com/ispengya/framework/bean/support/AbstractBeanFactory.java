@@ -13,18 +13,28 @@ public abstract class AbstractBeanFactory extends DefaultSingletonBeanRegistry i
 
     @Override
     public Object getBean(String name) throws BeansException {
+        return doGetBean(name,null);
+    }
+
+    @Override
+    public Object getBean(String name, Object... args) throws BeansException {
+        return doGetBean(name,args);
+    }
+
+    protected <T> T doGetBean(final String name, final Object[] args) {
         //为什么继承DefaultSingletonBeanRegistry，因为在这里面直接new并不能很好的解偶，而继承既能很好避免这个问题
+        //那我想使用这个getSingleton功能，但是我不想new就可以这样进行使用
         Object bean = getSingleton(name);
         if (bean != null) {
-            return bean;
+            return (T) bean;
         }
         //核心继续交给子类完成
         BeanDefinition beanDefinition = getBeanDefinition(name);
-        return createBean(name, beanDefinition);
+        return (T) createBean(name, beanDefinition, args);
     }
 
     protected abstract BeanDefinition getBeanDefinition(String beanName) throws BeansException;
 
-    protected abstract Object createBean(String beanName, BeanDefinition beanDefinition) throws BeansException;
+    protected abstract Object createBean(String beanName, BeanDefinition beanDefinition, Object[] args) throws BeansException;
 
 }
