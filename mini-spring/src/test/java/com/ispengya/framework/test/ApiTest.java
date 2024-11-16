@@ -1,10 +1,10 @@
 package com.ispengya.framework.test;
 
 import cn.hutool.core.io.IoUtil;
-import com.ispengya.framework.bean.support.DefaultListableBeanFactory;
-import com.ispengya.framework.bean.support.XmlBeanDefinitionReader;
-import com.ispengya.framework.io.Resource;
-import com.ispengya.framework.io.support.DefaultResourceLoader;
+import com.ispengya.framework.beans.factory.support.DefaultListableBeanFactory;
+import com.ispengya.framework.beans.factory.xml.XmlBeanDefinitionReader;
+import com.ispengya.framework.beans.io.Resource;
+import com.ispengya.framework.beans.io.support.DefaultResourceLoader;
 import com.ispengya.framework.test.bean.UserService;
 import org.junit.Before;
 import org.junit.Test;
