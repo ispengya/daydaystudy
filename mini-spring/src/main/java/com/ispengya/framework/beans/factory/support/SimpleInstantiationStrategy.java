@@ -1,7 +1,7 @@
 package com.ispengya.framework.beans.factory.support;
 
 import com.ispengya.framework.beans.factory.InstantiationStrategy;
-import com.ispengya.framework.beans.factory.base.BeanDefinition;
+import com.ispengya.framework.beans.factory.config.BeanDefinition;
 import com.ispengya.framework.exception.BeansException;
 
 import java.lang.reflect.Constructor;

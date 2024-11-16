@@ -3,9 +3,9 @@ package com.ispengya.framework.beans.factory.xml;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.core.util.XmlUtil;
 import com.ispengya.framework.beans.factory.BeanDefinitionRegistry;
-import com.ispengya.framework.beans.factory.base.BeanDefinition;
-import com.ispengya.framework.beans.factory.base.BeanReference;
-import com.ispengya.framework.beans.factory.base.PropertyValue;
+import com.ispengya.framework.beans.factory.config.BeanDefinition;
+import com.ispengya.framework.beans.factory.config.BeanReference;
+import com.ispengya.framework.beans.factory.config.PropertyValue;
 import com.ispengya.framework.beans.factory.support.AbstractBeanDefinitionReader;
 import com.ispengya.framework.exception.BeansException;
 import com.ispengya.framework.beans.io.Resource;
@@ -42,6 +42,13 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
     public void loadBeanDefinitions(Resource... resources) throws BeansException {
         for (Resource resource : resources) {
             loadBeanDefinitions(resource);
+        }
+    }
+
+    @Override
+    public void loadBeanDefinitions(String... locations) throws BeansException {
+        for (String location : locations) {
+            loadBeanDefinitions(location);
         }
     }
 

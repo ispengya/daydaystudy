@@ -1,4 +1,4 @@
-package com.ispengya.framework.beans.factory.base;
+package com.ispengya.framework.beans.factory.config;
 
 import java.util.ArrayList;
 import java.util.List;

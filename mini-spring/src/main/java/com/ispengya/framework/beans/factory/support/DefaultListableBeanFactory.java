@@ -2,7 +2,7 @@ package com.ispengya.framework.beans.factory.support;
 
 import com.ispengya.framework.beans.factory.BeanDefinitionRegistry;
 import com.ispengya.framework.beans.factory.ConfigurableListableBeanFactory;
-import com.ispengya.framework.beans.factory.base.BeanDefinition;
+import com.ispengya.framework.beans.factory.config.BeanDefinition;
 import com.ispengya.framework.exception.BeansException;
 
 import java.util.HashMap;
@@ -44,6 +44,11 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
     @Override
     public String[] getBeanDefinitionNames() {
         return beanDefinitionMap.keySet().toArray(new String[0]);
+    }
+
+    @Override
+    public void preInstantiateSingletons() throws BeansException {
+        beanDefinitionMap.keySet().forEach(this::getBean);
     }
 
 }

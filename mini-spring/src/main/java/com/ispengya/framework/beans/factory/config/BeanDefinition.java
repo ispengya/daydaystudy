@@ -1,4 +1,4 @@
-package com.ispengya.framework.beans.factory.base;
+package com.ispengya.framework.beans.factory.config;
 
 @SuppressWarnings({"rawtypes"})
 public class BeanDefinition {

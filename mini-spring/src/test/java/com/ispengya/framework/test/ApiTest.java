@@ -1,6 +1,7 @@
 package com.ispengya.framework.test;
 
 import cn.hutool.core.io.IoUtil;
+import com.ispengya.framework.beans.context.support.ClassPathXmlApplicationContext;
 import com.ispengya.framework.beans.factory.support.DefaultListableBeanFactory;
 import com.ispengya.framework.beans.factory.xml.XmlBeanDefinitionReader;
 import com.ispengya.framework.beans.io.Resource;
@@ -59,5 +60,17 @@ public class ApiTest {
         String result = userService.queryUserInfo();
         System.out.println("测试结果：" + result);
     }
+
+    @Test
+    public void test_context() {
+        // 1.初始化 BeanFactory
+        ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:spring.xml");
+
+        // 2. 获取Bean对象调用方法
+        UserService userService = applicationContext.getBean("userService", UserService.class);
+        String result = userService.queryUserInfo();
+        System.out.println("测试结果：" + result);
+    }
+
 
 }
