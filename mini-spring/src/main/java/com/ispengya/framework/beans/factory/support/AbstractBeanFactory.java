@@ -1,9 +1,10 @@
 package com.ispengya.framework.beans.factory.support;
 
-import com.ispengya.framework.beans.context.BeanPostProcessor;
+import com.ispengya.framework.beans.context.processor.BeanPostProcessor;
 import com.ispengya.framework.beans.factory.ConfigurableBeanFactory;
 import com.ispengya.framework.beans.factory.config.BeanDefinition;
 import com.ispengya.framework.exception.BeansException;
+import com.ispengya.framework.util.ClassUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,6 +60,16 @@ public abstract class AbstractBeanFactory extends DefaultSingletonBeanRegistry i
      */
     public List<BeanPostProcessor> getBeanPostProcessors() {
         return this.beanPostProcessors;
+    }
+
+    /**
+     * ClassLoader to resolve bean class names with, if necessary
+     */
+    private ClassLoader beanClassLoader = ClassUtils.getDefaultClassLoader();
+
+
+    public ClassLoader getBeanClassLoader() {
+        return this.beanClassLoader;
     }
 
 }

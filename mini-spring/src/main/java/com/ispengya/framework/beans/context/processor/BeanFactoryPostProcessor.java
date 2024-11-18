@@ -1,4 +1,4 @@
-package com.ispengya.framework.beans.context;
+package com.ispengya.framework.beans.context.processor;
 
 import com.ispengya.framework.beans.factory.ConfigurableListableBeanFactory;
 import com.ispengya.framework.exception.BeansException;

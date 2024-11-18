@@ -1,6 +1,6 @@
 package com.ispengya.framework.test.config;
 
-import com.ispengya.framework.beans.context.BeanFactoryPostProcessor;
+import com.ispengya.framework.beans.context.processor.BeanFactoryPostProcessor;
 import com.ispengya.framework.beans.factory.ConfigurableListableBeanFactory;
 import com.ispengya.framework.beans.factory.config.BeanDefinition;
 import com.ispengya.framework.beans.factory.config.PropertyValue;
@@ -15,7 +15,7 @@ public class MyBeanFactoryPostProcessor implements BeanFactoryPostProcessor {
         BeanDefinition beanDefinition = beanFactory.getBeanDefinition("userService");
         PropertyValues propertyValues = beanDefinition.getPropertyValues();
 
-        propertyValues.addPropertyValue(new PropertyValue("company", "改为：字节跳动"));
+        propertyValues.addPropertyValue(new PropertyValue("company", "字节跳动"));
     }
 
 }
