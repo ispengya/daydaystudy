@@ -1,6 +1,6 @@
 package com.ispengya.framework.beans.context;
 
-import com.ispengya.framework.exception.BeansException;
+import com.ispengya.framework.common.exception.BeansException;
 
 public interface ConfigurableApplicationContext extends ApplicationContext {
 

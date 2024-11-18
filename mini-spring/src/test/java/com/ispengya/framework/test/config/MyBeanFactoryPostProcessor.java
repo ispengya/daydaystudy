@@ -1,11 +1,11 @@
 package com.ispengya.framework.test.config;
 
-import com.ispengya.framework.beans.context.processor.BeanFactoryPostProcessor;
+import com.ispengya.framework.beans.context.lifecycle.BeanFactoryPostProcessor;
 import com.ispengya.framework.beans.factory.ConfigurableListableBeanFactory;
-import com.ispengya.framework.beans.factory.config.BeanDefinition;
-import com.ispengya.framework.beans.factory.config.PropertyValue;
-import com.ispengya.framework.beans.factory.config.PropertyValues;
-import com.ispengya.framework.exception.BeansException;
+import com.ispengya.framework.beans.model.BeanDefinition;
+import com.ispengya.framework.beans.model.PropertyValue;
+import com.ispengya.framework.beans.model.PropertyValues;
+import com.ispengya.framework.common.exception.BeansException;
 
 public class MyBeanFactoryPostProcessor implements BeanFactoryPostProcessor {
 

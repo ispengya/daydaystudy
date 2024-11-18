@@ -1,6 +1,6 @@
 package com.ispengya.framework.beans.factory;
 
-import com.ispengya.framework.beans.context.processor.BeanPostProcessor;
+import com.ispengya.framework.beans.context.lifecycle.BeanPostProcessor;
 
 public interface ConfigurableBeanFactory extends HierarchicalBeanFactory, SingletonBeanRegistry {
 
