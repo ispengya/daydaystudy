@@ -38,7 +38,10 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
     protected <T> T doGetBean(final String name, final Object[] args) {
         Object sharedInstance = getSingleton(name);
         if (sharedInstance != null) {
-            // 如果是 FactoryBean，则需要调用 FactoryBean#getObject
+            //为什么不直接返回？假设是需要FactoryBean
+            //1. getSingleton拿到的只是FactoryBean，而不是里面我们真正关心的内容
+            //2. getObjectForBeanInstance则进一步判断，拿到com.ispengya.framework.beans.factory.core.FactoryBeanRegistrySupport.factoryBeanObjectCache
+            //   这个里面所真正缓存的FactoryBean所代理的真实对象
             return (T) getObjectForBeanInstance(sharedInstance, name);
         }
 
@@ -48,12 +51,13 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
     }
 
     private Object getObjectForBeanInstance(Object beanInstance, String beanName) {
+        // 如果不是FactoryBean，直接返回即可
         if (!(beanInstance instanceof FactoryBean)) {
             return beanInstance;
         }
 
+        //从factoryBeanObjectCache拿到真实的才进行返回使用
         Object object = getCachedObjectForFactoryBean(beanName);
-
         if (object == null) {
             FactoryBean<?> factoryBean = (FactoryBean<?>) beanInstance;
             object = getObjectFromFactoryBean(factoryBean, beanName);

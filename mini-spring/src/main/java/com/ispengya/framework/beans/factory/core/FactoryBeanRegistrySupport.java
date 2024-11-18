@@ -8,9 +8,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public abstract class FactoryBeanRegistrySupport extends DefaultSingletonBeanRegistry {
 
-    /**
-     * Cache of singleton objects created by FactoryBeans: FactoryBean name --> object
-     */
+    //存储的是beanName==》FactoryBean所代理的真实内容
     private final Map<String, Object> factoryBeanObjectCache = new ConcurrentHashMap<String, Object>();
 
     protected Object getCachedObjectForFactoryBean(String beanName) {
