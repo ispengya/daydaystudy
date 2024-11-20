@@ -17,8 +17,13 @@ import java.util.List;
  */
 public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport implements ConfigurableBeanFactory {
 
-    /** BeanPostProcessors to apply in createBean */
     private final List<BeanPostProcessor> beanPostProcessors = new ArrayList<BeanPostProcessor>();
+
+    private ClassLoader beanClassLoader = ClassUtils.getDefaultClassLoader();
+
+    protected abstract BeanDefinition getBeanDefinition(String beanName) throws BeansException;
+
+    protected abstract Object createBean(String beanName, BeanDefinition beanDefinition, Object[] args) throws BeansException;
 
     @Override
     public Object getBean(String name) throws BeansException {
@@ -35,6 +40,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
         return (T) getBean(name);
     }
 
+    //核心方法
     protected <T> T doGetBean(final String name, final Object[] args) {
         Object sharedInstance = getSingleton(name);
         if (sharedInstance != null) {
@@ -44,12 +50,12 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
             //   这个里面所真正缓存的FactoryBean所代理的真实对象
             return (T) getObjectForBeanInstance(sharedInstance, name);
         }
-
         BeanDefinition beanDefinition = getBeanDefinition(name);
         Object bean = createBean(name, beanDefinition, args);
         return (T) getObjectForBeanInstance(bean, name);
     }
 
+    //兼顾FactoryBean抽出的方法
     private Object getObjectForBeanInstance(Object beanInstance, String beanName) {
         // 如果不是FactoryBean，直接返回即可
         if (!(beanInstance instanceof FactoryBean)) {
@@ -66,29 +72,15 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
         return object;
     }
 
-    protected abstract BeanDefinition getBeanDefinition(String beanName) throws BeansException;
-
-    protected abstract Object createBean(String beanName, BeanDefinition beanDefinition, Object[] args) throws BeansException;
-
     @Override
     public void addBeanPostProcessor(BeanPostProcessor beanPostProcessor){
         this.beanPostProcessors.remove(beanPostProcessor);
         this.beanPostProcessors.add(beanPostProcessor);
     }
 
-    /**
-     * Return the list of BeanPostProcessors that will get applied
-     * to beans created with this factory.
-     */
     public List<BeanPostProcessor> getBeanPostProcessors() {
         return this.beanPostProcessors;
     }
-
-    /**
-     * ClassLoader to resolve bean class names with, if necessary
-     */
-    private ClassLoader beanClassLoader = ClassUtils.getDefaultClassLoader();
-
 
     public ClassLoader getBeanClassLoader() {
         return this.beanClassLoader;

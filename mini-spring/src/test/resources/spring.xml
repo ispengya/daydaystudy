@@ -2,14 +2,19 @@
 <beans>
 <!--    <bean id="userDao" class="com.ispengya.framework.test.bean.UserDao" init-method="initDataMethod" destroy-method="destroyDataMethod"/>-->
 
-    <bean id="userService" class="com.ispengya.framework.test.bean.UserService" scope="singleton">
-        <property name="uId" value="10001"/>
-        <property name="company" value="腾讯"/>
-        <property name="location" value="深圳"/>
-        <property name="userDao" ref="proxyUserDao"/>
-    </bean>
+<!--    <bean id="userService" class="com.ispengya.framework.test.bean.PersonService" scope="singleton">-->
+<!--        <property name="uId" value="10001"/>-->
+<!--        <property name="company" value="腾讯"/>-->
+<!--        <property name="location" value="深圳"/>-->
+<!--        <property name="userDao" ref="proxyUserDao"/>-->
+<!--    </bean>-->
 
-<!--    <bean class="com.ispengya.framework.test.config.MyBeanPostProcessor"/>-->
-<!--    <bean class="com.ispengya.framework.test.config.MyBeanFactoryPostProcessor"/>-->
-    <bean id="proxyUserDao" class="com.ispengya.framework.test.bean.ProxyBeanFactory"/>
+<!--&lt;!&ndash;    <bean class="com.ispengya.framework.test.config.MyBeanPostProcessor"/>&ndash;&gt;-->
+<!--&lt;!&ndash;    <bean class="com.ispengya.framework.test.config.MyBeanFactoryPostProcessor"/>&ndash;&gt;-->
+<!--    <bean id="proxyUserDao" class="com.ispengya.framework.test.bean.ProxyBeanFactory"/>-->
+
+
+
+        <bean id="customEventListener" class="com.ispengya.framework.test.bean.CustomEventListener"/>
+
 </beans>

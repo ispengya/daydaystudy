@@ -10,6 +10,7 @@ import java.util.Set;
 
 public class DefaultSingletonBeanRegistry implements SingletonBeanRegistry {
 
+    //存放单例Bean的真正地方
     private final Map<String, Object> singletonObjects = new HashMap<>();
     private final Map<String, DisposableBean> disposableBeans = new HashMap<>();
     protected static final Object NULL_OBJECT = new Object();
@@ -28,6 +29,7 @@ public class DefaultSingletonBeanRegistry implements SingletonBeanRegistry {
             Object beanName = disposableBeanNames[i];
             DisposableBean disposableBean = disposableBeans.remove(beanName);
             try {
+                //执行的都是封装好的DisposableBeanAdapter
                 disposableBean.destroy();
             } catch (Exception e) {
                 throw new BeansException("Destroy method on bean with name '" + beanName + "' threw an exception", e);
@@ -35,12 +37,16 @@ public class DefaultSingletonBeanRegistry implements SingletonBeanRegistry {
         }
     }
 
-    public void registerDisposableBean(String beanName, DisposableBean bean) {
-        disposableBeans.put(beanName, bean);
-    }
-
     protected void addSingleton(String beanName, Object singletonObject) {
         singletonObjects.put(beanName, singletonObject);
+    }
+
+    public void registerSingleton(String beanName, Object singletonObject) {
+        singletonObjects.put(beanName, singletonObject);
+    }
+
+    public void registerDisposableBean(String beanName, DisposableBean bean) {
+        disposableBeans.put(beanName, bean);
     }
 
 }
