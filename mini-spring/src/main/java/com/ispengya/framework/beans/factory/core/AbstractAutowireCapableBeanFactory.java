@@ -2,16 +2,10 @@ package com.ispengya.framework.beans.factory.core;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.StrUtil;
-import com.ispengya.framework.beans.context.lifecycle.BeanPostProcessor;
+import com.ispengya.framework.beans.context.lifecycle.*;
 import com.ispengya.framework.beans.context.lifecycle.system.DisposableBeanAdapter;
 import com.ispengya.framework.beans.factory.AutowireCapableBeanFactory;
-import com.ispengya.framework.beans.context.lifecycle.DisposableBean;
-import com.ispengya.framework.beans.context.lifecycle.InitializingBean;
 import com.ispengya.framework.beans.factory.InstantiationStrategy;
-import com.ispengya.framework.beans.context.lifecycle.Aware;
-import com.ispengya.framework.beans.context.lifecycle.BeanClassLoaderAware;
-import com.ispengya.framework.beans.context.lifecycle.BeanFactoryAware;
-import com.ispengya.framework.beans.context.lifecycle.BeanNameAware;
 import com.ispengya.framework.beans.model.BeanDefinition;
 import com.ispengya.framework.beans.model.BeanReference;
 import com.ispengya.framework.beans.model.PropertyValue;
@@ -29,19 +23,27 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
     protected Object createBean(String beanName, BeanDefinition beanDefinition, Object[] args) throws BeansException {
         Object bean = null;
         try {
+            // 判断是否返回代理 Bean 对象
+            bean = resolveBeforeInstantiation(beanName, beanDefinition);
+            if (null != bean) {
+                return bean;
+            }
+
             bean = createBeanInstance(beanDefinition, beanName, args);
-            // 给 Bean 填充属性
+            // 给 bean 填充属性
             applyPropertyValues(beanName, bean, beanDefinition);
             // 执行 Bean 的初始化方法和 BeanPostProcessor 的前置和后置处理方法
             bean = initializeBean(beanName, bean, beanDefinition);
         } catch (Exception e) {
-            throw new BeansException("Instantiation of bean failed", e);
+            throw new BeansException("Instantiation of bean failed.", e);
         }
+
         // 注册实现了 DisposableBean 接口的 Bean 对象
         registerDisposableBeanIfNecessary(beanName, bean, beanDefinition);
-        // 判断 SCOPE_SINGLETON、SCOPE_PROTOTYPE
+
+        // 判断 SCOPE_SINGLETON，SCOPE_PROTOTYPE
         if (beanDefinition.isSingleton()) {
-            addSingleton(beanName, bean);
+            registerSingleton(beanName, bean);
         }
         return bean;
     }
@@ -124,6 +126,25 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
         if (bean instanceof DisposableBean || StrUtil.isNotEmpty(beanDefinition.getDestroyMethodName())) {
             registerDisposableBean(beanName, new DisposableBeanAdapter(bean, beanName, beanDefinition));
         }
+    }
+
+    protected Object resolveBeforeInstantiation(String beanName, BeanDefinition beanDefinition) {
+        Object bean = applyBeanPostProcessorBeforeInstantiation(beanDefinition.getBeanClass(), beanName);
+        if (null != bean) {
+            bean = applyBeanPostProcessorsAfterInitialization(bean, beanName);
+        }
+        return bean;
+    }
+
+    public Object applyBeanPostProcessorBeforeInstantiation(Class<?> beanClass, String beanName) throws BeansException {
+        for (BeanPostProcessor processor : getBeanPostProcessors()) {
+            if (processor instanceof InstantiationAwareBeanPostProcessor) {
+                // 注意，此方法为新增方法，与 “applyBeanPostProcessorBeforeInitialization” 是两个方法
+                Object result = ((InstantiationAwareBeanPostProcessor)processor).postProcessBeforeInstantiation(beanClass, beanName);
+                if (null != result) return result;
+            }
+        }
+        return null;
     }
 
 

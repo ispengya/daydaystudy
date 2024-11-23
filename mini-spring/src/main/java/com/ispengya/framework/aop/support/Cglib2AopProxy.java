@@ -1,6 +1,5 @@
 package com.ispengya.framework.aop.support;
 
-import com.ispengya.framework.aop.AdvisedSupport;
 import com.ispengya.framework.aop.AopProxy;
 import net.sf.cglib.proxy.Enhancer;
 import net.sf.cglib.proxy.MethodInterceptor;

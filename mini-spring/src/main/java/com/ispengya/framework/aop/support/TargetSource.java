@@ -1,4 +1,4 @@
-package com.ispengya.framework.aop;
+package com.ispengya.framework.aop.support;
 
 public class TargetSource {
 
