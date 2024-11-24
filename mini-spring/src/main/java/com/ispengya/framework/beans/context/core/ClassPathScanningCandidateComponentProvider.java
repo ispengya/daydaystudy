@@ -1,6 +1,7 @@
-package com.ispengya.framework.beans.context.annotation;
+package com.ispengya.framework.beans.context.core;
 
 import cn.hutool.core.util.ClassUtil;
+import com.ispengya.framework.beans.context.annotation.Component;
 import com.ispengya.framework.beans.model.BeanDefinition;
 
 import java.util.LinkedHashSet;

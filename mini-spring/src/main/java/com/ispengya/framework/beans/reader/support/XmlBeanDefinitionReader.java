@@ -1,7 +1,7 @@
 package com.ispengya.framework.beans.reader.support;
 
 import cn.hutool.core.util.StrUtil;
-import com.ispengya.framework.beans.context.annotation.ClassPathBeanDefinitionScanner;
+import com.ispengya.framework.beans.context.core.ClassPathBeanDefinitionScanner;
 import com.ispengya.framework.beans.factory.BeanDefinitionRegistry;
 import com.ispengya.framework.beans.model.BeanDefinition;
 import com.ispengya.framework.beans.model.BeanReference;

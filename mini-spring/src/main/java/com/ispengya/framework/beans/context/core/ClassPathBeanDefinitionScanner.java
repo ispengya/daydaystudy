@@ -1,7 +1,10 @@
-package com.ispengya.framework.beans.context.annotation;
+package com.ispengya.framework.beans.context.core;
 
 import cn.hutool.core.util.StrUtil;
+import com.ispengya.framework.beans.context.annotation.Component;
+import com.ispengya.framework.beans.context.annotation.Scope;
 import com.ispengya.framework.beans.factory.BeanDefinitionRegistry;
+import com.ispengya.framework.beans.factory.core.AutowiredAnnotationBeanPostProcessor;
 import com.ispengya.framework.beans.model.BeanDefinition;
 
 import java.util.Set;
@@ -26,6 +29,8 @@ public class ClassPathBeanDefinitionScanner extends ClassPathScanningCandidateCo
                 registry.registerBeanDefinition(determineBeanName(beanDefinition), beanDefinition);
             }
         }
+        // 注册处理注解的 BeanPostProcessor（@Autowired、@Value）
+        registry.registerBeanDefinition("com.ispengya.framework.beans.factory.core.internalAutowiredAnnotationProcessor", new BeanDefinition(AutowiredAnnotationBeanPostProcessor.class));
     }
 
     private String resolveBeanScope(BeanDefinition beanDefinition) {

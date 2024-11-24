@@ -2,10 +2,11 @@ package com.ispengya.framework.beans.factory.core;
 
 import com.ispengya.framework.beans.context.lifecycle.BeanPostProcessor;
 import com.ispengya.framework.beans.factory.ConfigurableBeanFactory;
-import com.ispengya.framework.beans.model.BeanDefinition;
 import com.ispengya.framework.beans.factory.FactoryBean;
+import com.ispengya.framework.beans.model.BeanDefinition;
 import com.ispengya.framework.common.exception.BeansException;
 import com.ispengya.framework.common.utils.ClassUtils;
+import com.ispengya.framework.common.utils.StringValueResolver;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +19,8 @@ import java.util.List;
 public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport implements ConfigurableBeanFactory {
 
     private final List<BeanPostProcessor> beanPostProcessors = new ArrayList<BeanPostProcessor>();
+
+    private final List<StringValueResolver> embeddedValueResolvers = new ArrayList<>();
 
     private ClassLoader beanClassLoader = ClassUtils.getDefaultClassLoader();
 
@@ -39,6 +42,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
     public <T> T getBean(String name, Class<T> requiredType) throws BeansException {
         return (T) getBean(name);
     }
+
 
     //核心方法
     protected <T> T doGetBean(final String name, final Object[] args) {
@@ -76,6 +80,20 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
     public void addBeanPostProcessor(BeanPostProcessor beanPostProcessor){
         this.beanPostProcessors.remove(beanPostProcessor);
         this.beanPostProcessors.add(beanPostProcessor);
+    }
+
+    @Override
+    public void addEmbeddedValueResolver(StringValueResolver valueResolver) {
+        this.embeddedValueResolvers.add(valueResolver);
+    }
+
+    @Override
+    public String resolveEmbeddedValue(String value) {
+        String result = value;
+        for (StringValueResolver resolver : this.embeddedValueResolvers) {
+            result = resolver.resolveStringValue(result);
+        }
+        return result;
     }
 
     public List<BeanPostProcessor> getBeanPostProcessors() {

@@ -2,14 +2,15 @@ package com.ispengya.framework.aop.support;
 
 import com.ispengya.framework.aop.Advisor;
 import com.ispengya.framework.aop.ClassFilter;
+import com.ispengya.framework.aop.Pointcut;
 import com.ispengya.framework.beans.context.lifecycle.BeanFactoryAware;
 import com.ispengya.framework.beans.context.lifecycle.InstantiationAwareBeanPostProcessor;
 import com.ispengya.framework.beans.factory.BeanFactory;
 import com.ispengya.framework.beans.factory.core.DefaultListableBeanFactory;
+import com.ispengya.framework.beans.model.PropertyValues;
 import com.ispengya.framework.common.exception.BeansException;
 import org.aopalliance.aop.Advice;
 import org.aopalliance.intercept.MethodInterceptor;
-import com.ispengya.framework.aop.Pointcut;
 
 import java.util.Collection;
 
@@ -65,6 +66,11 @@ public class DefaultAdvisorAutoProxyCreator implements InstantiationAwareBeanPos
     @Override
     public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
         return bean;
+    }
+
+    @Override
+    public PropertyValues postProcessPropertyValues(PropertyValues pvs, Object bean, String beanName) throws BeansException {
+        return pvs;
     }
 
 }

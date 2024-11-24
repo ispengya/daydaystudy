@@ -1,7 +1,10 @@
 package com.ispengya.framework.test.aop;
 
+import com.ispengya.framework.beans.context.annotation.Component;
+
 import java.util.Random;
 
+@Component
 public class PersonService implements IPersonService {
 
     public String queryUserInfo() {
