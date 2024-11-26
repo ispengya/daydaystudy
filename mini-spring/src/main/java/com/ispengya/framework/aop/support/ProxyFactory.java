@@ -1,6 +1,7 @@
 package com.ispengya.framework.aop.support;
 
 import com.ispengya.framework.aop.AopProxy;
+import com.ispengya.framework.aop.config.AdvisedSupport;
 
 public class ProxyFactory {
 

@@ -1,6 +1,9 @@
 package com.ispengya.framework.aop.support;
 
 import com.ispengya.framework.aop.AopProxy;
+import com.ispengya.framework.aop.config.AdvisedSupport;
+import com.ispengya.framework.aop.config.ReflectiveMethodInvocation;
+import com.ispengya.framework.common.utils.ClassUtils;
 import net.sf.cglib.proxy.Enhancer;
 import net.sf.cglib.proxy.MethodInterceptor;
 import net.sf.cglib.proxy.MethodProxy;
@@ -17,8 +20,15 @@ public class Cglib2AopProxy implements AopProxy {
 
     @Override
     public Object getProxy() {
+//        Enhancer enhancer = new Enhancer();
+//        enhancer.setSuperclass(advised.getTargetSource().getTarget().getClass());
+//        enhancer.setInterfaces(advised.getTargetSource().getTargetClass());
+//        enhancer.setCallback(new DynamicAdvisedInterceptor(advised));
+//        return enhancer.create();
         Enhancer enhancer = new Enhancer();
-        enhancer.setSuperclass(advised.getTargetSource().getTarget().getClass());
+        Class<?> aClass = advised.getTargetSource().getTarget().getClass();
+        aClass = ClassUtils.isCglibProxyClass(aClass)? aClass.getSuperclass():aClass;
+        enhancer.setSuperclass(aClass);
         enhancer.setInterfaces(advised.getTargetSource().getTargetClass());
         enhancer.setCallback(new DynamicAdvisedInterceptor(advised));
         return enhancer.create();
@@ -38,7 +48,6 @@ public class Cglib2AopProxy implements AopProxy {
             if (advised.getMethodMatcher().matches(method, advised.getTargetSource().getTarget().getClass())) {
                 return advised.getMethodInterceptor().invoke(methodInvocation);
             }
-            //不匹配走正常的代理执行流程，这里只是进行封装
             return methodInvocation.proceed();
         }
     }

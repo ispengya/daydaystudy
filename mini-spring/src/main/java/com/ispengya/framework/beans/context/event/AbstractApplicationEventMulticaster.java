@@ -1,6 +1,6 @@
 package com.ispengya.framework.beans.context.event;
 
-import com.ispengya.framework.beans.context.lifecycle.BeanFactoryAware;
+import com.ispengya.framework.beans.context.config.BeanFactoryAware;
 import com.ispengya.framework.beans.factory.BeanFactory;
 import com.ispengya.framework.common.exception.BeansException;
 import com.ispengya.framework.common.utils.ClassUtils;
