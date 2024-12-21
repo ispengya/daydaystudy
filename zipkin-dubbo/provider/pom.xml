@@ -1,0 +1,128 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.6.7</version>
+        <relativePath/> <!-- lookup parent from repository -->
+    </parent>
+
+    <artifactId>provider</artifactId>
+    <packaging>jar</packaging>
+    <name>provider</name>
+    <url>http://maven.apache.org</url>
+
+    <properties>
+        <java.version>1.8</java.version>
+        <brave-bom.version>5.13.3</brave-bom.version>
+        <zipkin-reporter-bom.version>2.16.3</zipkin-reporter-bom.version>
+    </properties>
+
+    <dependencies>
+
+        <!--  项目相关依赖 引用order的rpc jar包     -->
+        <dependency>
+            <groupId>com.ispengya</groupId>
+            <artifactId>api</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+            <exclusions><!-- 去掉springboot log默认配置 -->
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-logging</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <!-- 引入log4j2依赖 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-log4j2</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <!--添加Dubbo及Zookeeper、zkclient依赖		-->
+        <dependency>
+            <groupId>org.apache.dubbo</groupId>
+            <artifactId>dubbo-spring-boot-starter</artifactId>
+            <version>2.7.8</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.alibaba.nacos</groupId>
+            <artifactId>nacos-client</artifactId>
+            <version>1.4.0</version>
+        </dependency>
+
+
+        <!-- SpringBoot 2.7.x Dubbo 版本 配置Zipkin-->
+        <dependency>
+            <groupId>io.zipkin.brave</groupId>
+            <artifactId>brave-instrumentation-dubbo</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.zipkin.brave</groupId>
+            <artifactId>brave-spring-beans</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.zipkin.brave</groupId>
+            <artifactId>brave-context-slf4j</artifactId>
+        </dependency>
+        <!--        tracing -->
+        <dependency>
+            <groupId>io.zipkin.reporter2</groupId>
+            <artifactId>zipkin-sender-okhttp3</artifactId>
+        </dependency>
+        <!--        tracing  & mvc-->
+        <dependency>
+            <groupId>io.zipkin.brave</groupId>
+            <artifactId>brave-instrumentation-spring-webmvc</artifactId>
+        </dependency>
+        <!--        tracing  & http-->
+        <dependency>
+            <groupId>io.zipkin.brave</groupId>
+            <artifactId>brave-instrumentation-httpclient</artifactId>
+        </dependency>
+
+    </dependencies>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>io.zipkin.brave</groupId>
+                <artifactId>brave-bom</artifactId>
+                <version>${brave-bom.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>io.zipkin.reporter2</groupId>
+                <artifactId>zipkin-reporter-bom</artifactId>
+                <version>${zipkin-reporter-bom.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
